@@ -31,7 +31,6 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
-import com.liferay.document.library.kernel.util.DLUtil;
 import com.liferay.dynamic.data.lists.model.DDLRecordSet;
 import com.liferay.dynamic.data.lists.service.DDLRecordSetLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
@@ -44,6 +43,8 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
@@ -55,7 +56,6 @@ import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserGroupLocalServiceUtil;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.ArrayList;
@@ -73,7 +73,7 @@ public final class ResolverUtil {
     private static final String ARTICLE_BY_ART_ID = "{{$ARTICLE-%%IDTYPE%%-BY-ARTICLE-ID=";
     private static final String TEMPLATE_BY_KEY = "{{$%%PREFIX%%-TEMPLATE-%%IDTYPE%%-BY-KEY=";
     private static final String STRUCTURE_BY_KEY = "{{$%%PREFIX%%-STRUCTURE-%%IDTYPE%%-BY-KEY=";
-    private static final String FILE_REFERENCE_URL = "{{$FILE-URL=";
+    private static final String FILE_REFERENCE_JSON = "{{$FILE-JSON=";
     private static final String FILE_REFERENCE_ID = "{{$FILE-ID=";
     private static final String FILE_REFERENCE_UUID = "{{$FILE-UUID=";
     private static final String CLASS_ID_BY_NAME = "{{$CLASS-ID-BY-NAME=";
@@ -112,7 +112,7 @@ public final class ResolverUtil {
      * look for &gt; $}}</li>
      * <li>{{$ADT-TEMPLATE-UUID-BY-KEY=[:: name of the site ::]&lt; article id
      * to look for &gt; $}}</li>
-     * <li>{{$FILE-URL=[:: name of the site ::]&lt; documents and media folder
+     * <li>{{$FILE-JSON=[:: name of the site ::]&lt; documents and media folder
      * path to the file &gt;&lt; documents and media folder title of the file
      * &gt;$}}</li>
      * <li>{{$FILE-ID=[:: name of the site ::]&lt; documents and media folder
@@ -320,7 +320,7 @@ public final class ResolverUtil {
     public static String substituteFileReferencesWithURL(final String content,
                                                          final String locationHint, final long groupId, final long company, final long repoId,
                                                          final long userId, final int refType) {
-        String openingTag = FILE_REFERENCE_URL;
+        String openingTag = FILE_REFERENCE_JSON;
         if (refType == ID_TYPE_ID) {
             openingTag = FILE_REFERENCE_ID;
         } else if (refType == ID_TYPE_UUID) {
@@ -361,11 +361,8 @@ public final class ResolverUtil {
                         } else if (refType == ID_TYPE_UUID) {
                             fileEntryRef = fe.getUuid();
                         } else {
-                            fileEntryRef = DLUtil.getPreviewURL(fe, fe.getFileVersion(), null,
-                                    StringPool.BLANK);
+                            fileEntryRef = getFileEntryRef(fe);
                         }
-                    } catch (PortalException e) {
-                        LOG.error("URL of referred file " + filePath + " cannot be retrieved.");
                     } catch (SystemException e) {
                         LOG.error("URL of referred file " + filePath + " cannot be retrieved.");
                     }
@@ -377,6 +374,22 @@ public final class ResolverUtil {
         }
         return result;
     }
+
+    private static String getFileEntryRef(FileEntry fe) {
+        JSONObject feJsonObject = JSONUtil.put(
+                "classPK", fe.getFileEntryId()
+        ).put(
+                "groupId", fe.getGroupId()
+        ).put(
+                "title", fe.getTitle()
+        ).put(
+                "type", "document"
+        ).put(
+                "uuid", fe.getUuid()
+        );
+        return feJsonObject.toString();
+    }
+
     public static String substituteCategoryNameWithCategoryId(final String content,
             final String locationHint, final long groupId, final long company,
             final long userId) {
