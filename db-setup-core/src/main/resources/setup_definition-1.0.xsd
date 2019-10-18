@@ -274,7 +274,7 @@
                     <li>{{$ART-STRUCTURE-UUID-BY-KEY=[:: name of the site ::]&lt; article id to look for &gt;$}}</li>
                     <li>{{$ADT-TEMPLATE-ID-BY-KEY=[:: name of the site ::]&lt; article id to look for &gt;$}}</li>
                     <li>{{$ADT-TEMPLATE-UUID-BY-KEY=[:: name of the site ::]&lt; article id to look for &gt;$}}</li>
-                    <li>{{$FILE-URL=[:: name of the site ::]&lt; documents and media folder path to the file &gt;&lt; documents and media folder title of the file &gt;$}}
+                    <li>{{$FILE-JSON=[:: name of the site ::]&lt; documents and media folder path to the file &gt;&lt; documents and media folder title of the file &gt;$}}
                     </li>
                     <li>{{$FILE-ID=[:: name of the site ::]&lt; documents and media folder path to the file &gt;&lt; documents and media folder title of the file &gt;$}}
                     </li>
@@ -646,7 +646,7 @@
                     <li>{{$ART-STRUCTURE-UUID-BY-KEY=[:: name of the site ::]&lt; article id to look for &gt;$}}</li>
                     <li>{{$ADT-TEMPLATE-ID-BY-KEY=[:: name of the site ::]&lt; article id to look for &gt;$}}</li>
                     <li>{{$ADT-TEMPLATE-UUID-BY-KEY=[:: name of the site ::]&lt; article id to look for &gt;$}}</li>
-                    <li>{{$FILE-URL=[:: name of the site ::]&lt; documents and media folder path to the file &gt;&lt; documents and media folder title of the file &gt;$}}
+                    <li>{{$FILE-JSON=[:: name of the site ::]&lt; documents and media folder path to the file &gt;&lt; documents and media folder title of the file &gt;$}}
                     </li>
                     <li>{{$FILE-ID=[:: name of the site ::]&lt; documents and media folder path to the file &gt;&lt; documents and media folder title of the file &gt;$}}
                     </li>
