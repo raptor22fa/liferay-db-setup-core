@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <version>2.1.4</version>
+    <version>3.0.0-SNAPSHOT</version>
     <artifactId>db-setup-core</artifactId>
     <name>Liferay Portal DB Setup core</name>
     <description>Library that allows to declare a set of Liferay data to be created and create them using the API.
@@ -14,7 +14,7 @@
     <parent>
         <groupId>com.mimacom.liferay</groupId>
         <artifactId>build-parent</artifactId>
-        <version>1.0.0</version>
+        <version>2.0.0</version>
     </parent>
 
     <build>
@@ -99,28 +99,23 @@
         <dependency>
             <groupId>com.liferay.portal</groupId>
             <artifactId>com.liferay.portal.kernel</artifactId>
-            <version>2.6.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.liferay</groupId>
             <artifactId>com.liferay.journal.api</artifactId>
-            <version>2.6.0</version>
         </dependency>
         <dependency>
             <groupId>com.liferay</groupId>
             <artifactId>com.liferay.dynamic.data.lists.api</artifactId>
-            <version>2.1.1</version>
         </dependency>
         <dependency>
             <groupId>com.liferay</groupId>
             <artifactId>com.liferay.dynamic.data.mapping.api</artifactId>
-            <version>3.5.4</version>
         </dependency>
         <dependency>
             <groupId>javax.portlet</groupId>
             <artifactId>portlet-api</artifactId>
-            <version>2.0</version>
             <scope>provided</scope>
         </dependency>
         <!-- Test -->
@@ -139,7 +134,6 @@
         <dependency>
             <groupId>com.liferay.portal</groupId>
             <artifactId>com.liferay.portal.impl</artifactId>
-            <version>2.6.0</version>
         </dependency>
     </dependencies>
     <scm>
