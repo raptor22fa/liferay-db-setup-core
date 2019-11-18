@@ -54,6 +54,7 @@ import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.*;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portlet.display.template.PortletDisplayTemplate;
 import com.mimacom.liferay.portal.setup.LiferaySetup;
 import com.mimacom.liferay.portal.setup.core.util.ResolverUtil;
 import com.mimacom.liferay.portal.setup.core.util.ResourcesUtil;
@@ -348,7 +349,7 @@ public final class SetupArticles {
         LOG.info("Adding ADT " + template.getName());
         long classNameId = PortalUtil.getClassNameId(template.getClassName());
 
-        long resourceClassnameId = Validator.isBlank(template.getResourceClassName()) ? ClassNameLocalServiceUtil.getClassNameId(JournalArticle.class)
+        long resourceClassnameId = Validator.isBlank(template.getResourceClassName()) ? ClassNameLocalServiceUtil.getClassNameId(PortletDisplayTemplate.class)
                                                                                       : ClassNameLocalServiceUtil.getClassNameId(template.getResourceClassName());
 
         Map<Locale, String> nameMap = new HashMap<Locale, String>();
@@ -366,7 +367,7 @@ public final class SetupArticles {
         DDMTemplate ddmTemplate = null;
         try {
             ddmTemplate = DDMTemplateLocalServiceUtil.fetchTemplate(groupId, classNameId,
-                    template.getTemplateKey());
+                    template.getTemplateKey(), true);
         } catch (SystemException e) {
             LOG.error("Error while trying to find ADT with key: " + template.getTemplateKey());
         }
